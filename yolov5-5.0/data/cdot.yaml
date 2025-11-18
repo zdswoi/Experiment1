@@ -1,0 +1,24 @@
+# PASCAL VOC dataset http://host.robots.ox.ac.uk/pascal/VOC/
+# Train command: python train.py --data voc.yaml
+# Default dataset location is next to /yolov5:
+#   /parent_folder
+#     /VOC
+#     /yolov5
+
+
+# download command/URL (optional)
+#download: bash data/scripts/get_voc.sh
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: VOCdevkit/images/train/  # 16551 images
+val: VOCdevkit/images/val/  # 4952 images
+
+# number of classes   40
+nc: 36
+
+# class names
+# classes = ["ctc0","ctc1","ctc2","ctc3","ctc4","ctc5","ctc6","ctc7","ctc8","ctc9","dox0","dox1","dox2","dox3","dox4","dox5","dox6","dox7","dox8","dox9","otc0","otc1","otc2","otc3","otc4","otc5","otc6","otc7","otc8","otc9","tc0","tc1","tc2","tc3","tc4","tc5","tc6","tc7","tc8","tc9"]  # 类别
+
+names: ["ctc1","ctc2","ctc3","ctc4","ctc5","ctc6","ctc7","ctc8","ctc9","dox1","dox2","dox3","dox4","dox5","dox6","dox7","dox8","dox9","otc1","otc2","otc3","otc4","otc5","otc6","otc7","otc8","otc9","tc1","tc2","tc3","tc4","tc5","tc6","tc7","tc8","tc9"]  # 类别
+  # 类别
+#names: ["0","CTC5","CTC10","CTC20","CTC30","DOX5","DOX10","DOX20","DOX30","OTC5","OTC10","OTC20","OTC30","TC5","TC10","TC20","TC30"]  # 类别
