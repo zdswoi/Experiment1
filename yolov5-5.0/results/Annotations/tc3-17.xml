@@ -1,0 +1,26 @@
+<annotation>
+	<folder>TC-3</folder>
+	<filename>tc3-17.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-TC\TC-3\tc3-17.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>608</width>
+		<height>1654</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>tc3</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>138</xmin>
+			<ymin>152</ymin>
+			<xmax>498</xmax>
+			<ymax>1361</ymax>
+		</bndbox>
+	</object>
+</annotation>

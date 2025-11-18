@@ -1,0 +1,26 @@
+<annotation>
+	<folder>OTC-6</folder>
+	<filename>otc6-12.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-OTC\OTC-6\otc6-12.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>648</width>
+		<height>1714</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>otc6</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>149</xmin>
+			<ymin>215</ymin>
+			<xmax>530</xmax>
+			<ymax>1510</ymax>
+		</bndbox>
+	</object>
+</annotation>

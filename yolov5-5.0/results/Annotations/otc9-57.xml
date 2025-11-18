@@ -1,0 +1,26 @@
+<annotation>
+	<folder>OTC-9</folder>
+	<filename>otc9-57.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-OTC\OTC-9\otc9-57.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>801</width>
+		<height>1714</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>otc9</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>262</xmin>
+			<ymin>227</ymin>
+			<xmax>684</xmax>
+			<ymax>1516</ymax>
+		</bndbox>
+	</object>
+</annotation>

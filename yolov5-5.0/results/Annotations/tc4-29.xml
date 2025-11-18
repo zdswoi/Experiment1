@@ -1,0 +1,26 @@
+<annotation>
+	<folder>TC-4</folder>
+	<filename>tc4-29.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-TC\TC-4\tc4-29.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>859</width>
+		<height>1654</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>tc4</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>314</xmin>
+			<ymin>138</ymin>
+			<xmax>715</xmax>
+			<ymax>1353</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>DOX-9</folder>
+	<filename>dox9-10.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-DOX\DOX-9\dox9-10.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>699</width>
+		<height>1750</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>dox9</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>134</xmin>
+			<ymin>189</ymin>
+			<xmax>584</xmax>
+			<ymax>1603</ymax>
+		</bndbox>
+	</object>
+</annotation>

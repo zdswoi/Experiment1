@@ -1,0 +1,26 @@
+<annotation>
+	<folder>DOX-7</folder>
+	<filename>dox7-79.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-DOX\DOX-7\dox7-79.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>721</width>
+		<height>1750</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>dox7</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>166</xmin>
+			<ymin>173</ymin>
+			<xmax>574</xmax>
+			<ymax>1614</ymax>
+		</bndbox>
+	</object>
+</annotation>

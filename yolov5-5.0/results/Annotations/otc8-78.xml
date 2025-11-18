@@ -1,0 +1,26 @@
+<annotation>
+	<folder>OTC-8</folder>
+	<filename>otc8-78.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-OTC\OTC-8\otc8-78.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>1714</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>otc8</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>131</xmin>
+			<ymin>250</ymin>
+			<xmax>530</xmax>
+			<ymax>1530</ymax>
+		</bndbox>
+	</object>
+</annotation>

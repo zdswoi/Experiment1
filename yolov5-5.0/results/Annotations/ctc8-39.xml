@@ -1,0 +1,26 @@
+<annotation>
+	<folder>CTC-8</folder>
+	<filename>ctc8-39.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-CTC\CTC-8\ctc8-39.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>695</width>
+		<height>2006</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>ctc8</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>145</xmin>
+			<ymin>298</ymin>
+			<xmax>547</xmax>
+			<ymax>1675</ymax>
+		</bndbox>
+	</object>
+</annotation>

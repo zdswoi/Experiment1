@@ -1,0 +1,26 @@
+<annotation>
+	<folder>DOX-5</folder>
+	<filename>dox5-86.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-DOX\DOX-5\dox5-86.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>830</width>
+		<height>1750</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>dox5</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>113</xmin>
+			<ymin>164</ymin>
+			<xmax>546</xmax>
+			<ymax>1593</ymax>
+		</bndbox>
+	</object>
+</annotation>

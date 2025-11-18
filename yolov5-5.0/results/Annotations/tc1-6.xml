@@ -1,0 +1,26 @@
+<annotation>
+	<folder>TC-1</folder>
+	<filename>tc1-6.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-TC\TC-1\tc1-6.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>749</width>
+		<height>1654</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>tc1</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>203</xmin>
+			<ymin>159</ymin>
+			<xmax>596</xmax>
+			<ymax>1375</ymax>
+		</bndbox>
+	</object>
+</annotation>

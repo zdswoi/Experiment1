@@ -1,0 +1,26 @@
+<annotation>
+	<folder>CTC-7</folder>
+	<filename>ctc7-86.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-CTC\CTC-7\ctc7-86.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>653</width>
+		<height>2006</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>ctc7</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>129</xmin>
+			<ymin>276</ymin>
+			<xmax>543</xmax>
+			<ymax>1687</ymax>
+		</bndbox>
+	</object>
+</annotation>

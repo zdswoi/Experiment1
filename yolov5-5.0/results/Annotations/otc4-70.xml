@@ -1,0 +1,26 @@
+<annotation>
+	<folder>OTC-4</folder>
+	<filename>otc4-70.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-OTC\OTC-4\otc4-70.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>718</width>
+		<height>1430</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>otc4</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>192</xmin>
+			<ymin>153</ymin>
+			<xmax>559</xmax>
+			<ymax>1325</ymax>
+		</bndbox>
+	</object>
+</annotation>

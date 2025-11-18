@@ -1,0 +1,26 @@
+<annotation>
+	<folder>DOX-1</folder>
+	<filename>dox1-72.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-DOX\DOX-1\dox1-72.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>649</width>
+		<height>1796</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>dox1</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>124</xmin>
+			<ymin>197</ymin>
+			<xmax>537</xmax>
+			<ymax>1552</ymax>
+		</bndbox>
+	</object>
+</annotation>

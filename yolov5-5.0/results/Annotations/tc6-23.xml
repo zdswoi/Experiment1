@@ -1,0 +1,26 @@
+<annotation>
+	<folder>TC-6</folder>
+	<filename>tc6-23.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-TC\TC-6\tc6-23.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>657</width>
+		<height>1780</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>tc6</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>145</xmin>
+			<ymin>187</ymin>
+			<xmax>524</xmax>
+			<ymax>1455</ymax>
+		</bndbox>
+	</object>
+</annotation>

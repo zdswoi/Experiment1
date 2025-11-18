@@ -1,0 +1,26 @@
+<annotation>
+	<folder>OTC-2</folder>
+	<filename>otc2-14.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-OTC\OTC-2\otc2-14.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>606</width>
+		<height>1430</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>otc2</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>146</xmin>
+			<ymin>106</ymin>
+			<xmax>486</xmax>
+			<ymax>1303</ymax>
+		</bndbox>
+	</object>
+</annotation>

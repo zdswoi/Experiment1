@@ -1,0 +1,26 @@
+<annotation>
+	<folder>CTC-9</folder>
+	<filename>ctc9-89.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-CTC\CTC-9\ctc9-89.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>882</width>
+		<height>2006</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>ctc9</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>296</xmin>
+			<ymin>294</ymin>
+			<xmax>731</xmax>
+			<ymax>1671</ymax>
+		</bndbox>
+	</object>
+</annotation>

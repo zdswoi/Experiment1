@@ -1,0 +1,26 @@
+<annotation>
+	<folder>OTC-3</folder>
+	<filename>otc3-98.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-OTC\OTC-3\otc3-98.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>611</width>
+		<height>1430</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>otc3</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>125</xmin>
+			<ymin>127</ymin>
+			<xmax>473</xmax>
+			<ymax>1318</ymax>
+		</bndbox>
+	</object>
+</annotation>

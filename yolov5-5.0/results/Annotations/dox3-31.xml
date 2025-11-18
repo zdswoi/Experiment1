@@ -1,0 +1,26 @@
+<annotation>
+	<folder>DOX-3</folder>
+	<filename>dox3-31.jpg</filename>
+	<path>E:\yanyishang\yolov5tuxiang\0707-DOX\DOX-3\dox3-31.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>631</width>
+		<height>1796</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>dox3</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>135</xmin>
+			<ymin>225</ymin>
+			<xmax>524</xmax>
+			<ymax>1558</ymax>
+		</bndbox>
+	</object>
+</annotation>
