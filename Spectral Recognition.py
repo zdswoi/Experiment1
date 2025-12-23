@@ -217,7 +217,7 @@ plt.tight_layout()
 
 # 3. SVM分类和决策边界图（改进部分）
 # 改进1：使用分层抽样划分数据集，保证类别比例
-sss = StratifiedShuffleSplit(n_splits=1, test_size=0.4, random_state=42)  # 测试集比例调整为30%
+sss = StratifiedShuffleSplit(n_splits=1, test_size=0.3, random_state=42)  # 测试集比例调整为30%
 for train_idx, test_idx in sss.split(score, labels):
     X_train, X_test = score[train_idx], score[test_idx]
     y_train, y_test = labels[train_idx], labels[test_idx]
