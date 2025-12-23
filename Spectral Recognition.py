@@ -34,7 +34,7 @@ plt.rcParams['axes.linewidth'] = 5
 plt.rcParams['legend.fontsize'] = 26  # 图例标签字体大小与标题一致
 
 # 加载Excel数据（请确保文件路径正确 ）
-file_path = f"E:/shiyan1/荧光/1111/新建 Microsoft Excel 工作表.xlsx"
+file_path = f"E:/shiyan1/荧光/新建 Microsoft Excel 工作表.xlsx"
 sheet = pd.read_excel(file_path, sheet_name="Sheet4")
 
 # 提取数据
