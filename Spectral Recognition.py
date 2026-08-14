@@ -10,6 +10,7 @@ from sklearn.tree import DecisionTreeClassifier  # 新增DT
 from sklearn.ensemble import RandomForestClassifier  # 新增RF
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedShuffleSplit, cross_val_score
+from sklearn.linear_model import LogisticRegression
 from imblearn.over_sampling import SMOTE
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 from scipy.spatial.distance import cdist
@@ -34,24 +35,28 @@ plt.rcParams['axes.linewidth'] = 5
 plt.rcParams['legend.fontsize'] = 26  # 图例标签字体大小与标题一致
 
 # 加载Excel数据（请确保文件路径正确 ）
-file_path = f"E:/shiyan1/荧光/新建 Microsoft Excel 工作表.xlsx"
-sheet = pd.read_excel(file_path, sheet_name="Sheet4")
+file_path = f"E:/研一上/5 抗生素检测/Zn-TCPP-Fe/荧光/0508/新建 Microsoft Excel 工作表.xlsx"
+sheet = pd.read_excel(file_path, sheet_name="选择性-0517-4")
 
 # 提取数据
 data = sheet.iloc[:, 1:].values.T  # 转置使样本为行，特征为列
-new_data = sheet.iloc[:, 11:12].values.T  # 新数据用于进行预测的数据
+new_data = sheet.iloc[:, 1:2].values.T  # 新数据用于进行预测的数据
 # print(new_data)
 
 # 提取并处理标签
 class_labels = sheet.columns[1:]  # 第一行是类别标签
 labels = [math.trunc(float(label)) for label in class_labels]
 labels = np.array(labels)  # 转换为numpy数组
-
-class_names = ["OTC", "TC", "CTC", "DOX"]
-
+# class_names = ["OTC1", "TC1", "CTC1", "DOX1","OTC2", "TC2", "CTC2", "DOX2","OTC3", "TC3", "CTC3", "DOX3","OTC4", "TC4", "CTC4", "DOX4","OTC5", "TC5", "CTC5", "DOX5","OTC6", "TC6", "CTC6", "DOX6","OTC7", "TC7", "CTC7", "DOX7","OTC8", "TC8", "CTC8", "DOX8","OTC9", "TC9", "CTC9", "DOX9"]  # 定义类别名称
+# class_names = ["OTC", "TC", "CTC", "DOX","INF"]  # 定义类别名称
+# class_names = ["OTC", "TC", "CTC", "DOX"]
+# class_names = ["TC0", "TC10", "TC20", "TC30","TC40", "TC50", "TC60", "TC70","TC80", "TC90"]
+# class_names = ["OTC100", "TC100", "CTC100","tc60-dox40","ctc60-dox40","ctc60-otc40","dox60-tc40","otc60-tc40","otc60-dox40","otc60-ctc40","dox80-tc20","tc80-ctc20","tc80-dox20","ctc80-tc20","otc80-dox20","otc80-tc20"]
+class_names = ["OTC", "TC", "CTC", "DOX","blank","ERY","Trp","HCO3-","SDM-Na","K+","CO32-","NOR","SD-Na","Cys","His","Na+","Cl-","18","19","20","21","22","23","24","25","26","27","28"]
+# class_names = ["OTC1","OTC2","OTC3","OTC4","OTC5","OTC6","OTC7","OTC8","OTC9", "TC1","TC2","TC3","TC4","TC5","TC6","TC7","TC8","TC9", "CTC1","CTC2","CTC3","CTC4","CTC5","CTC6","CTC7","CTC8","CTC9", "DOX1", "DOX2", "DOX3", "DOX4", "DOX5", "DOX6", "DOX7", "DOX8", "DOX9"]  # 定义类别名称
 unique_labels = np.unique(labels)
 # new-data-标签
-class_labels_prediction = sheet.columns[11:12]
+class_labels_prediction = sheet.columns[1:2]
 labels_prediction = [math.trunc(float(label)) for label in class_labels_prediction]
 labels_prediction = np.array(labels_prediction)
 prediction = np.unique(labels_prediction)
@@ -103,20 +108,54 @@ def confidence_ellipse(x, y, ax, n_std=3.0, edgecolor='k',facecolor='k', **kwarg
         .translate(mean_x, mean_y)
     ellipse.set_transform(transf + ax.transData)
     return ax.add_patch(ellipse)
+#
+# custom_colors = [
+#     (0.992,0.784,0.592),  # 橙色 "OTC"
+#     (0.616,0.843,0.616),     # 绿色 "TC"
+#     (0.761,0.698,0.839),  # 紫色 "CTC"
+#     (0.604,0.733,0.953),   # 蓝色，之前是黄色 "DOX"
+#     (0.996, 0.722, 0.976)   # 粉色，之前是蓝色  第5号 其他
+#     ]
+
 custom_colors = [
-    (0.992,0.784,0.592),  # 橙色 "OTC"
-    (0.616,0.843,0.616),     # 绿色 "TC"
-    (0.761,0.698,0.839),  # 紫色 "CTC"
-    (0.604,0.733,0.953),   # 蓝色，之前是黄色 "DOX"
-    (0.996, 0.722, 0.976)   # 粉色，之前是蓝色  第5号 其他
-    ]
+    (0.992, 0.784, 0.592),   # 橙色 OTC
+    (0.616, 0.843, 0.616),   # 绿色 TC
+    (0.761, 0.698, 0.839),   # 紫色 CTC
+    (0.604, 0.733, 0.953),   # 蓝色 DOX
+    (0.996, 0.722, 0.976),   # 粉色
+    (1.000, 1.000, 0.635),
+    (0.698, 0.718, 0.569),
+    (0.976, 0.682, 0.000),
+    (0.714, 0.894, 0.922),
+    (0.933, 0.863, 0.643),
+    (0.592, 0.910, 0.541),
+    (0.749, 0.627, 0.906),
+    (0.824, 0.953, 0.675),
+    (0.950, 0.850, 0.650),
+    (0.550, 0.750, 0.550),
+    (0.800, 0.750, 0.880),
+    (0.580, 0.780, 0.920),
+    (0.902, 0.494, 0.459),
+    (0.498, 0.796, 0.776),
+    (0.859, 0.608, 0.471),
+    (0.678, 0.584, 0.722),
+    (0.929, 0.706, 0.808),
+    (0.635, 0.690, 0.784),
+    (0.835, 0.804, 0.675),
+    (0.474, 0.678, 0.545),
+    (0.788, 0.655, 0.514),
+    (0.541, 0.859, 0.902),
+    (0.870, 0.733, 0.800),
+    (0.702, 0.831, 0.639),
+    (0.945, 0.780, 0.694)
+]
 # (0.996, 0.722, 0.976)  # 粉色，之前是蓝色  第5号 其他
 # 转换为matplotlib可用的颜色格式
 custom_cmap = plt.cm.colors.ListedColormap(custom_colors)
 color_map = {label: custom_cmap(i) for i, label in enumerate(unique_labels)}
 
 # 1. 绘制PCA散点图
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(9, 7.2))
 ax = plt.gca()
 # 定义颜色映射，让类别和颜色稳定对应，这里用rainbow也可换其他（如tab10等 ）
 # colors = plt.cm.rainbow(np.linspace(0, 1, len(unique_labels)))
@@ -133,12 +172,16 @@ for i, class_id in enumerate(unique_labels):
                 label=f'{class_names[i]} (n={len(x)})', edgecolor='k')
 
     if len(x) > 1:
-        confidence_ellipse(x, y, ax, n_std=2.65,
+        confidence_ellipse(x, y, ax, n_std=2.4,
                            edgecolor=color_map[class_id],
                            facecolor=color_map[class_id],
                            linewidth=1,
                            linestyle='-',
                            alpha=0.65)
+
+# 添加新数据点
+# plt.scatter(new_data_pca[:, 0], new_data_pca[:, 1], c='black', s=200,
+#             marker='*', label='New Data', edgecolor='k')
 
 # 设置标题和轴标签字体大小
 plt.title('PCA classification plot', fontsize=30, fontweight='bold')
@@ -147,9 +190,17 @@ plt.ylabel(f'PC2 ({latent[1]:.1f}%)', fontsize=30, fontweight='bold')
 ax.minorticks_on()
 ax.tick_params(axis='both', which='major', labelsize=28, width=5, length=8, pad=8)
 # 次刻度：更密集的辅助刻度线
-ax.xaxis.set_minor_locator(MultipleLocator(5))   # x 轴次刻度间隔 2
-ax.yaxis.set_minor_locator(MultipleLocator(2.5)) # y 轴次刻度间隔 0.5
+ax.xaxis.set_minor_locator(MultipleLocator(10))   # x 轴次刻度间隔 2
+ax.yaxis.set_minor_locator(MultipleLocator(1.25)) # y 轴次刻度间隔 0.5
 ax.tick_params(axis='both', which='minor', width=5, length=5)
+# # 调整图例，让类别 - 颜色对应更直观
+# legend_elements = [plt.Line2D([0], [0], marker='o', color='w', label=class_names[i],
+#                               markerfacecolor=color_map[unique_labels[i]], markersize=15)
+#                    for i in range(len(unique_labels))]
+# legend_elements.append(plt.Line2D([0], [0], marker='*', color='w', label='New Data',
+#                                   markerfacecolor='black', markersize=10))
+# # # 图例去掉边框
+# ax.legend(handletextpad=0.05,handles=legend_elements, loc='best', frameon=False, prop={'weight': 'bold'})  # 单独设置图例粗体
 # 坐标轴刻度标签粗体
 plt.xticks(fontsize=28, fontweight='bold')
 plt.yticks(fontsize=28, fontweight='bold')
@@ -159,7 +210,7 @@ plt.tight_layout()
 
 
 # 2. K-Means聚类 (修正标签对齐)
-kmeans = KMeans(n_clusters=17, random_state=0, n_init=10).fit(score)
+kmeans = KMeans(n_clusters=10, random_state=0, n_init=10).fit(score)
 centers = kmeans.cluster_centers_
 
 # 建立聚类中心与真实类别的映射关系
@@ -172,7 +223,7 @@ kmeans_labels_mapped = np.array([cluster_to_class[label] for label in kmeans.lab
 plt.figure(figsize=(10, 8))
 ax = plt.gca()
 
-for i in range(16):
+for i in range(4):
     mask = (kmeans.labels_ == i)
     x = score[mask, 0]
     y = score[mask, 1]
@@ -207,8 +258,16 @@ ax.minorticks_on()
 ax.tick_params(axis='both', which='major', labelsize=28, width=5, length=8, pad=8)
 # 次刻度：更密集的辅助刻度线
 ax.xaxis.set_minor_locator(MultipleLocator(5))   # x 轴次刻度间隔 2
-ax.yaxis.set_minor_locator(MultipleLocator(1.25)) # y 轴次刻度间隔 0.5
+ax.yaxis.set_minor_locator(MultipleLocator(0.25)) # y 轴次刻度间隔 0.5
 ax.tick_params(axis='both', which='minor', width=5, length=5)
+# # 调整图例
+# legend_elements_kmeans = [plt.Line2D([0], [0], marker='o', color='w', label=class_names[i],
+#                                      markerfacecolor=color_map[unique_labels[i]], markersize=15)
+#                           for i in range(len(unique_labels))]
+# # legend_elements_kmeans.append(plt.Line2D([0], [0], marker='*', color='w', label='New Data',
+# #                                           markerfacecolor='black', markersize=10))
+# # 图例去掉边框
+# ax.legend(handletextpad=0.05,handles=legend_elements_kmeans, loc='best', frameon=False, prop={'weight': 'bold'})  # 单独设置图例粗体
 # 坐标轴刻度标签粗体
 plt.xticks(fontsize=28, fontweight='bold')
 plt.yticks(fontsize=28, fontweight='bold')
@@ -312,6 +371,16 @@ plt.contourf(xx, yy, Z, alpha=0.65, cmap=custom_cmap)
 plt.scatter(score[:, 0], score[:, 1], c=labels, cmap=custom_cmap, alpha=1.0,
             s=150, edgecolor='k', label='Training Data')
 
+# 添加新数据点
+# plt.scatter(new_data_pca[:, 0], new_data_pca[:, 1], c='black', s=200,
+#             marker='*', label=f'New Data (Pred: {svm_pred_mapped[0]})', edgecolor='k')
+
+# 添加颜色条，清晰展示类别 - 颜色对应
+# cbar = plt.colorbar(ticks=unique_labels)
+# cbar.set_label('Class Labels')
+# # 让颜色条刻度和类别名称对应
+# cbar.ax.set_yticklabels(class_names)
+
 plt.xlabel(f'PC1 ({latent[0]:.1f}%)', fontsize=30, fontweight='bold')
 plt.ylabel(f'PC2 ({latent[1]:.1f}%)', fontsize=30, fontweight='bold')
 plt.title('SVM classification plot', fontsize=30, fontweight='bold',pad=10)
@@ -319,8 +388,24 @@ ax.minorticks_on()
 ax.tick_params(axis='both', which='major', labelsize=28, width=5, length=8, pad=8)
 # 次刻度：更密集的辅助刻度线
 ax.xaxis.set_minor_locator(MultipleLocator(5))   # x 轴次刻度间隔 2
-ax.yaxis.set_minor_locator(MultipleLocator(1)) # y 轴次刻度间隔 0.5
+ax.yaxis.set_minor_locator(MultipleLocator(0.25)) # y 轴次刻度间隔 0.5
 ax.tick_params(axis='both', which='minor', width=5, length=5)
+
+# # 调整图例
+# legend_elements_svm = [
+#     plt.scatter([], [],
+#                 color=custom_cmap(i),  # 使用自定义颜色
+#                 s=150,  # 与散点图大小一致
+#                 label=class_names[i],
+#                 edgecolor='none'  # 去掉散点边框（可选，若需要边框可改回 'k' 等）
+#                )
+#     for i in range(len(unique_labels))
+# ]
+# # legend_elements_svm.append(plt.Line2D([0], [0], marker='*', color='w', label='New Data',
+# #                                        markerfacecolor='black', markersize=10))
+#
+#
+# ax.legend(handletextpad=0.05,handles=legend_elements_svm, loc='best', frameon=False, prop={'weight': 'bold'})
 plt.xticks(fontsize=28, fontweight='bold')
 plt.yticks(fontsize=28, fontweight='bold')
 plt.grid(True, linestyle='--', alpha=0)
@@ -405,6 +490,15 @@ hca_labels_idx = np.array([class_names.index(class_names[i]) for i in hca_labels
 plt.figure(figsize=(18, 5))
 
 # 5. 原有混淆矩阵（修改部分）
+# plt.figure(figsize=(18, 5))
+# # SVM混淆矩阵
+# plt.subplot(131)
+# svm_disp.plot(cmap=plt.cm.Blues, ax=plt.gca())
+# plt.title(f'SVM Confusion Matrix\nAccuracy: {accuracy_score(y_test_1, y_pred_1):.2f}', fontsize=30, fontweight='bold')
+# plt.gca().tick_params(axis='both', labelsize=28, width=4, length=9, pad=9)
+# plt.gca().set_xticklabels(class_names, rotation=45, ha='right', fontsize=30, fontweight='bold')  # 标签大小与标题一致
+# plt.gca().set_yticklabels(class_names, fontsize=30, fontweight='bold')  # 标签大小与标题一致
+
 # SVM混淆矩阵
 plt.subplot(131)
 svm_cm = confusion_matrix(y_test_1, y_pred_1)
@@ -416,7 +510,7 @@ plt.title(f'SVM Confusion Matrix', fontsize=28, fontweight='bold')
 plt.xlabel('Prediction', fontsize=26, fontweight='bold')
 plt.ylabel('Target', fontsize=26, fontweight='bold')
 plt.gca().tick_params(axis='both', labelsize=26, width=4, length=0, pad=9)
-plt.gca().set_xticklabels(class_names, rotation=90, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
+plt.gca().set_xticklabels(class_names, rotation=0, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
 plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')  # 标签大小与标题一致
 
 # 设置混淆矩阵中数值的字体大小和粗细
@@ -437,7 +531,7 @@ plt.title(f'K-means Confusion Matrix', fontsize=28, fontweight='bold')
 plt.xlabel('Prediction', fontsize=26, fontweight='bold')
 plt.ylabel('Target', fontsize=26, fontweight='bold')
 plt.gca().tick_params(axis='both', labelsize=28, width=4, length=0, pad=9)
-plt.gca().set_xticklabels(class_names, rotation=90, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
+plt.gca().set_xticklabels(class_names, rotation=0, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
 plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')  # 标签大小与标题一致
 # 设置混淆矩阵中数值的字体大小和粗细
 for text in kmeans_disp.text_.flatten():
@@ -456,7 +550,7 @@ plt.title(f'HCA Confusion Matrix', fontsize=28, fontweight='bold')
 plt.xlabel('Prediction', fontsize=26, fontweight='bold')
 plt.ylabel('Target', fontsize=26, fontweight='bold')
 plt.gca().tick_params(axis='both', labelsize=28, width=4, length=0, pad=9)
-plt.gca().set_xticklabels(class_names, rotation=90, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
+plt.gca().set_xticklabels(class_names, rotation=0, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
 plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')  # 标签大小与标题一致
 # 设置混淆矩阵中数值的字体大小和粗细
 for text in hca_disp.text_.flatten():
@@ -530,47 +624,89 @@ dt_pred_mapped = [class_names[int(p) - 1] for p in dt_pred_new]
 rf_pred_new = rf.predict(new_data_pca)
 rf_pred_mapped = [class_names[int(p) - 1] for p in rf_pred_new]
 
-# 新增DT和RF混淆矩阵画布
-plt.figure(figsize=(12, 5))
+# 7. 新增Logistic回归（Logistic Regression）算法
+lr_param_grid = {
+    'C': [0.001, 0.01, 0.1, 1, 10, 100],  # 正则化强度
+    'penalty': ['l2'],  # 逻辑回归常用L2正则
+    'solver': ['lbfgs', 'saga']  # 优化器（适配L2正则）
+}
 
-# DT混淆矩阵
-plt.subplot(121)
+lr_grid = GridSearchCV(
+    LogisticRegression(class_weight='balanced', random_state=42, max_iter=1000),  # 增加迭代次数避免不收敛
+    lr_param_grid,
+    cv=cv_folds,  # 复用动态交叉验证折数
+    scoring='accuracy',
+    n_jobs=-1
+)
+lr_grid.fit(X_train_resampled, y_train_resampled)  # 用重采样数据训练
+
+print(f"LR Optimal parameters: {lr_grid.best_params_}")
+print(f"LR Cross-validation accuracy: {lr_grid.best_score_:.4f}")
+
+# 基于最优参数训练模型
+lr = lr_grid.best_estimator_
+lr_pred = lr.predict(X_test_1)
+lr_acc = accuracy_score(y_test_1, lr_pred)
+print(f"LR Test set accuracy: {lr_acc:.2f}")
+
+# 对新数据进行预测
+lr_pred_new = lr.predict(new_data_pca)
+lr_pred_mapped = [class_names[int(p) - 1] for p in lr_pred_new]
+
+
+# 新增Logistic回归混淆矩阵（与DT、RF合并为3列布局）
+# 先修改原DT+RF的画布尺寸为18×5，适配3个混淆矩阵
+plt.figure(figsize=(18, 5))
+
+# DT混淆矩阵（保持原代码）
+plt.subplot(131)
 dt_cm = confusion_matrix(y_test_1, dt_pred)
 dt_disp = ConfusionMatrixDisplay(confusion_matrix=dt_cm, display_labels=class_names)
-# dt_disp.plot(cmap=plt.cm.Purples, ax=plt.gca(), colorbar=False)
 dt_disp.plot(cmap=plt.cm.Blues, ax=plt.gca(), colorbar=False)
 plt.title(f'DT Confusion Matrix', fontsize=28, fontweight='bold')
-# 设置XY轴标题
 plt.xlabel('Prediction', fontsize=26, fontweight='bold')
 plt.ylabel('Target', fontsize=26, fontweight='bold')
 plt.gca().tick_params(axis='both', labelsize=28, width=4, length=0, pad=9)
-plt.gca().set_xticklabels(class_names, rotation=90, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
-plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')  # 标签大小与标题一致
-# 设置混淆矩阵中数值的字体大小和粗细
+plt.gca().set_xticklabels(class_names, rotation=0, ha='center', fontsize=22, fontweight='bold')
+plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')
 for text in dt_disp.text_.flatten():
     text.set_fontsize(22)
     text.set_weight('bold')
 
-# RF混淆矩阵
-plt.subplot(122)
+# RF混淆矩阵（保持原代码）
+plt.subplot(132)
 rf_cm = confusion_matrix(y_test_1, rf_pred)
 rf_disp = ConfusionMatrixDisplay(confusion_matrix=rf_cm, display_labels=class_names)
 rf_disp.plot(cmap=plt.cm.Blues, ax=plt.gca(), colorbar=False)
 plt.title(f'RF Confusion Matrix', fontsize=28, fontweight='bold')
-# 设置XY轴标题
 plt.xlabel('Prediction', fontsize=26, fontweight='bold')
 plt.ylabel('Target', fontsize=26, fontweight='bold')
 plt.gca().tick_params(axis='both', labelsize=28, width=4, length=0, pad=9)
-plt.gca().set_xticklabels(class_names, rotation=90, ha='center', fontsize=22, fontweight='bold')  # 标签大小与标题一致
-plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')  # 标签大小与标题一致
-# 设置混淆矩阵中数值的字体大小和粗细
+plt.gca().set_xticklabels(class_names, rotation=0, ha='center', fontsize=22, fontweight='bold')
+plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')
 for text in rf_disp.text_.flatten():
+    text.set_fontsize(22)
+    text.set_weight('bold')
+
+# Logistic回归混淆矩阵（新增）
+plt.subplot(133)
+lr_cm = confusion_matrix(y_test_1, lr_pred)
+lr_disp = ConfusionMatrixDisplay(confusion_matrix=lr_cm, display_labels=class_names)
+lr_disp.plot(cmap=plt.cm.Blues, ax=plt.gca(), colorbar=False)
+plt.title(f'LR Confusion Matrix', fontsize=28, fontweight='bold')
+plt.xlabel('Prediction', fontsize=26, fontweight='bold')
+plt.ylabel('Target', fontsize=26, fontweight='bold')
+plt.gca().tick_params(axis='both', labelsize=28, width=4, length=0, pad=9)
+plt.gca().set_xticklabels(class_names, rotation=0, ha='center', fontsize=22, fontweight='bold')
+plt.gca().set_yticklabels(class_names, fontsize=22, fontweight='bold')
+for text in lr_disp.text_.flatten():
     text.set_fontsize(22)
     text.set_weight('bold')
 
 plt.tight_layout()
 
-# 打印所有预测结果（包含DT和RF）
+
+# 在“Final Prediction Results”中添加Logistic回归的预测结果
 print("\n=== Final Prediction Results ===")
 print(f"Actual Category: ['{prediction}']")
 print(f"SVM Prediction: {svm_pred_mapped}")
@@ -578,6 +714,7 @@ print(f"K-Means Prediction: {kmeans_pred_mapped}")
 print(f"HCA Prediction: {hca_pred_mapped}")
 print(f"Decision Tree Prediction: {dt_pred_mapped}")
 print(f"Random Forest Prediction: {rf_pred_mapped}")
+print(f"Logistic Regression Prediction: {lr_pred_mapped}")  # 新增
 
 
 def plot_rf_tree_iteration_performance(X, y, class_names, cv_folds, rf_grid, X_train_resampled, y_train_resampled):
@@ -702,5 +839,169 @@ rf_tree_plot = plot_rf_tree_iteration_performance(
     y_train_resampled=y_train_resampled   # 重采样后的训练标签
 )
 rf_tree_plot.show()  # 显示图表
+
+# ============================================================
+# 追加代码：6种算法5折交叉验证准确率统计 + 导出Excel
+# ============================================================
+from sklearn.model_selection import StratifiedKFold
+
+# ---------- 1. 5折交叉验证配置 ----------
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+folds = list(skf.split(score, labels))
+
+# ---------- 2. 监督算法（SVM、RF、DT、LR）5折CV准确率 ----------
+def supervised_cv_acc(model_factory, X, y, folds):
+    acc_list = []
+    for train_idx, test_idx in folds:
+        X_train_fold, X_test_fold = X[train_idx], X[test_idx]
+        y_train_fold, y_test_fold = y[train_idx], y[test_idx]
+        # 训练集先做SMOTE
+        unique_f, counts_f = np.unique(y_train_fold, return_counts=True)
+        min_f = np.min(counts_f)
+        n_neigh = min(5, min_f - 1)
+        if min_f > 1:
+            smote_f = SMOTE(random_state=42, k_neighbors=n_neigh)
+            X_tr_res, y_tr_res = smote_f.fit_resample(X_train_fold, y_train_fold)
+        else:
+            X_tr_res, y_tr_res = X_train_fold, y_train_fold
+        # 训练+预测
+        m = model_factory()
+        m.fit(X_tr_res, y_tr_res)
+        y_pred_fold = m.predict(X_test_fold)
+        acc_list.append(accuracy_score(y_test_fold, y_pred_fold))
+    return np.array(acc_list)
+
+# SVM
+svm_cv_acc = supervised_cv_acc(
+    lambda: SVC(C=grid_search.best_params_['C'],
+                gamma=grid_search.best_params_['gamma'],
+                kernel=grid_search.best_params_['kernel'],
+                class_weight='balanced'),
+    score, labels, folds)
+
+# RF
+rf_cv_acc = supervised_cv_acc(
+    lambda: RandomForestClassifier(
+        n_estimators=rf_grid.best_params_['n_estimators'],
+        max_depth=rf_grid.best_params_['max_depth'],
+        min_samples_split=rf_grid.best_params_['min_samples_split'],
+        min_samples_leaf=rf_grid.best_params_['min_samples_leaf'],
+        class_weight=rf_grid.best_params_['class_weight'],
+        random_state=42),
+    score, labels, folds)
+
+# DT
+dt_cv_acc = supervised_cv_acc(
+    lambda: DecisionTreeClassifier(
+        criterion=dt_grid.best_params_['criterion'],
+        max_depth=dt_grid.best_params_['max_depth'],
+        min_samples_split=dt_grid.best_params_['min_samples_split'],
+        min_samples_leaf=dt_grid.best_params_['min_samples_leaf'],
+        class_weight='balanced',
+        random_state=42),
+    score, labels, folds)
+
+# LR
+lr_cv_acc = supervised_cv_acc(
+    lambda: LogisticRegression(
+        C=lr_grid.best_params_['C'],
+        penalty=lr_grid.best_params_['penalty'],
+        solver=lr_grid.best_params_['solver'],
+        class_weight='balanced',
+        random_state=42,
+        max_iter=1000),
+    score, labels, folds)
+
+# ---------- 3. K-means 5折CV准确率 ----------
+def kmeans_cv_acc(X, y, folds, n_clusters=4):
+    acc_list = []
+    for train_idx, test_idx in folds:
+        X_train_fold, X_test_fold = X[train_idx], X[test_idx]
+        y_train_fold, y_test_fold = y[train_idx], y[test_idx]
+        # 训练集聚类
+        km = KMeans(n_clusters=n_clusters, random_state=0, n_init=10)
+        km.fit(X_train_fold)
+        # 训练集中心与真实类别映射
+        train_centers = {}
+        for cid in np.unique(y_train_fold):
+            mask = (y_train_fold == cid)
+            train_centers[cid] = np.mean(X_train_fold[mask], axis=0)
+        dist_mat = cdist(km.cluster_centers_, list(train_centers.values()))
+        cluster_to_class = np.argmin(dist_mat, axis=1)
+        # 测试集预测并映射
+        test_pred = km.predict(X_test_fold)
+        test_pred_mapped = np.array([cluster_to_class[p] for p in test_pred])
+        # 将真实标签也转为0-based索引便于比较
+        y_test_idx = np.array([np.where(np.unique(y_train_fold) == lbl)[0][0] for lbl in y_test_fold])
+        acc_list.append(accuracy_score(y_test_idx, test_pred_mapped))
+    return np.array(acc_list)
+
+kmeans_cv_acc = kmeans_cv_acc(score, labels, folds)
+
+# ---------- 4. HCA 5折CV准确率 ----------
+def hca_cv_acc(X, y, folds, n_clusters=4):
+    acc_list = []
+    for train_idx, test_idx in folds:
+        X_train_fold, X_test_fold = X[train_idx], X[test_idx]
+        y_train_fold, y_test_fold = y[train_idx], y[test_idx]
+        # 训练集HCA
+        linked_fold = linkage(X_train_fold, 'average')
+        cluster_labels_fold = fcluster(linked_fold, n_clusters, criterion='maxclust')
+        # 计算每个聚类中心
+        hca_centers_fold = []
+        for i in range(1, n_clusters + 1):
+            mask = (cluster_labels_fold == i)
+            hca_centers_fold.append(np.mean(X_train_fold[mask], axis=0))
+        # 训练集真实类别中心
+        train_centers = {}
+        for cid in np.unique(y_train_fold):
+            mask = (y_train_fold == cid)
+            train_centers[cid] = np.mean(X_train_fold[mask], axis=0)
+        # 聚类→真实类别映射
+        dist_mat = cdist(hca_centers_fold, list(train_centers.values()))
+        hca_to_class = np.argmin(dist_mat, axis=1)
+        # 测试集样本按最近中心分配聚类
+        test_dist = cdist(X_test_fold, hca_centers_fold)
+        test_cluster = np.argmin(test_dist, axis=1) + 1  # HCA簇编号从1开始
+        # 映射到真实类别索引
+        test_pred_mapped = np.array([hca_to_class[c - 1] for c in test_cluster])
+        # 真实标签转0-based
+        y_test_idx = np.array([np.where(np.unique(y_train_fold) == lbl)[0][0] for lbl in y_test_fold])
+        acc_list.append(accuracy_score(y_test_idx, test_pred_mapped))
+    return np.array(acc_list)
+
+hca_cv_acc = hca_cv_acc(score, labels, folds)
+
+---------- 5. 汇总数据构建表格 ----------
+algorithms = ['K-means', 'HCA', 'SVM', 'RF', 'DT', 'LR']
+all_cv_acc = [kmeans_cv_acc, hca_cv_acc, svm_cv_acc, rf_cv_acc, dt_cv_acc, lr_cv_acc]
+
+table_data = []
+for name, acc_arr in zip(algorithms, all_cv_acc):
+    row = {
+        'Classification algorithm': name,
+        'Fold 1 Accuracy (%)': round(acc_arr[0] * 100, 2),
+        'Fold 2 Accuracy (%)': round(acc_arr[1] * 100, 2),
+        'Fold 3 Accuracy (%)': round(acc_arr[2] * 100, 2),
+        'Fold 4 Accuracy (%)': round(acc_arr[3] * 100, 2),
+        'Fold 5 Accuracy (%)': round(acc_arr[4] * 100, 2),
+        'Average Accuracy (%)': round(np.mean(acc_arr) * 100, 2),
+        'Standard Deviation (SD) of Accuracy (%)': round(np.std(acc_arr, ddof=1) * 100, 2)
+    }
+    table_data.append(row)
+
+cv_df = pd.DataFrame(table_data)
+
+# ---------- 6. 打印输出 ----------
+print("\n" + "=" * 80)
+print("Table S8  5-fold cross-validation accuracy of six machine learning algorithms")
+print("=" * 80)
+print(cv_df.to_string(index=False))
+print("=" * 80)
+
+# ---------- 7. 导出Excel ----------
+output_path = "E:/研一上/5 抗生素检测/Zn-TCPP-Fe/荧光/0508/Table_S8_5fold_CV_accuracy.xlsx"
+cv_df.to_excel(output_path, sheet_name="5-fold CV", index=False)
+print(f"\nExcel表格已保存至: {output_path}")
 
 plt.show()
